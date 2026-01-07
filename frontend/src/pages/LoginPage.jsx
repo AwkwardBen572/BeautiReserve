@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -18,7 +17,12 @@ const LoginPage = () => {
             </div>
             <br></br>
             <div className="input_holder">
-              <input className="input font_size_s" type="text" placeholder="Password"></input>
+              <input className="input font_size_s" type="password" placeholder="Password"></input>
+            </div>
+            <br></br>
+            <div className="show_password_holder flex_row color_green">
+              <input className="checkbox" type="checkbox"></input>
+              &nbsp;Show Password
             </div>
           </div>
           <div className="login_button_holder flex_column flex_all_center">

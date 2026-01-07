@@ -37,6 +37,10 @@
     width: 50%;
 }
 
+.show_password_holder {
+    width: 85%;
+}
+
 .login_button_holder {
     width: 100%;
 }

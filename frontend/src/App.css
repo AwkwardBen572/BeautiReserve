@@ -70,3 +70,9 @@
   background-color: #f9d8d8;
   cursor: pointer;
 }
+
+input[type="checkbox"] {
+  accent-color: #a7b59e;
+  color: #ffffff;
+  cursor: pointer;
+}
