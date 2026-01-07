@@ -13,11 +13,11 @@ const LoginPage = () => {
           </div>
           <div className="login_form_details flex_column flex_all_center">
             <div className="input_holder">
-              <input className="input font_size_s" type="text" placeholder="Email"></input>
+              <input className="input font_size_s color_pink" type="text" placeholder="Email"></input>
             </div>
             <br></br>
             <div className="input_holder">
-              <input className="input font_size_s" type="password" placeholder="Password"></input>
+              <input className="input font_size_s color_pink" type="password" placeholder="Password"></input>
             </div>
             <br></br>
             <div className="show_password_holder flex_row color_green">
