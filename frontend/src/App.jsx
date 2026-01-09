@@ -1,12 +1,15 @@
 import './App.css'
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
 
   return (
-    <div className="app_holder">
-      <LoginPage />
-    </div>
+     <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+    </Routes>
   )
 }
 

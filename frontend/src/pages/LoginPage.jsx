@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
 const LoginPage = () => {
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="login_page_holder flex_row font_1">
@@ -38,11 +40,11 @@ const LoginPage = () => {
         <div className="form_holder">
           {mode === "login" && (
             <div className="flex_column flex_all_center">
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input className="input" type="text" placeholder="Email"></input>
               </div>
               &emsp;
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input
                   className="input"
                   type={showPassword ? "text" : "password"}
@@ -58,29 +60,37 @@ const LoginPage = () => {
               </div>
               <div className="form_button_holder flex_column flex_all_center"><div className="form_button button flex_column flex_all_center color_white">Login</div></div>
               <div className="forgot_password_holder flex_column flex_all_center color_green">
-                <u style={{ cursor: "pointer" }}>Forgot Password</u>
+                <u style={{ cursor: "pointer" }} onClick={() => navigate("/forgot-password")}>Forgot Password</u>
               </div>
             </div>
           )}
           {mode === "register" && (
             <div className="flex_column flex_all_center">
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input className="input" type="text" placeholder="Name & Surname"></input>
               </div>
               &emsp;
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input className="input" type="number" placeholder="Phone Number"></input>
               </div>
               &emsp;
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input className="input" type="number" placeholder="Email"></input>
               </div>
               &emsp;
-              <div className="input_holder">
+              <div className="login_input_holder">
                 <input
                   className="input"
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
+                />
+              </div>
+              &emsp;
+              <div className="login_input_holder">
+                <input
+                  className="input"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
                 />
               </div>
               <div className="show_password_holder flex_row flex_all_center color_green">
