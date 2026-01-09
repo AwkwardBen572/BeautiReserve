@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/hello")
 @CrossOrigin(origins = "http://localhost:3000")
-public class HelloController {
+public class PasswordResetController {
     @GetMapping
     public String hello() {
         return "Hello from Spring Boot!";
