@@ -9,5 +9,4 @@ public class LashreserveApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LashreserveApplication.class, args);
 	}
-
 }

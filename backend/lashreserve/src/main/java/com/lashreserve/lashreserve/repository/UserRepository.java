@@ -1,5 +1,9 @@
 package com.lashreserve.lashreserve.repository;
 
-public class UserRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.lashreserve.lashreserve.entity.User;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsByEmail(String email);
 }
