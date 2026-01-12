@@ -44,6 +44,7 @@ const LoginPage = () => {
     const errors = validateForm();
     if (errors.length > 0) {
       setError(errors.join("\n"));
+      setShowError(true);
       return;
     }
 
@@ -66,12 +67,12 @@ const LoginPage = () => {
       !form.phoneNumber.trim() ||
       form.phoneNumber.length < 10 ||
       !validatePhone(form.phoneNumber)
-    )
-      errors.push("Please insert a valid phone number.");
+    ) errors.push("Please insert a valid phone number.");
+    console.log(form.password)
+    console.log(form.confirmPassword)
     if (!validateEmail(form.email)) errors.push("Please insert a valid email.");
     if (form.password.length < 8) errors.push("Password must be at least 6 characters.");
     if (form.password !== form.confirmPassword) errors.push("Passwords do not match.");
-    setShowError(true);
     return errors;
   };
 
