@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lashreserve.lashreserve.dto.ForgotPasswordRequest;
 import com.lashreserve.lashreserve.dto.RegisterRequest;
+import com.lashreserve.lashreserve.dto.ResetPasswordRequest;
 import com.lashreserve.lashreserve.entity.User;
 import com.lashreserve.lashreserve.repository.UserRepository;
 import com.lashreserve.lashreserve.security.JwtUtil;
+import com.lashreserve.lashreserve.service.PasswordResetService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,12 +27,14 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final PasswordResetService passwordResetService;
 
     public AuthController(UserRepository userRepository,
-            PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+            PasswordEncoder passwordEncoder, JwtUtil jwtUtil, PasswordResetService passwordResetService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.passwordResetService = passwordResetService;
     }
 
     @PostMapping("/register")
@@ -56,7 +61,8 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody RegisterRequest request,
             HttpServletResponse response) {
 
-        User user = userRepository.findByEmail(request.email);
+        User user = userRepository.findByEmail(request.email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (user == null ||
                 !passwordEncoder.matches(request.password, user.getPassword())) {
@@ -74,5 +80,23 @@ public class AuthController {
         response.addCookie(cookie);
 
         return ResponseEntity.ok("Login successful");
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(
+            @RequestBody ForgotPasswordRequest request) {
+
+        passwordResetService.createResetToken(request.getEmail());
+        return ResponseEntity.ok("Reset email sent");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(
+            @RequestBody ResetPasswordRequest request) {
+
+        passwordResetService.resetPassword(
+                request.getToken(),
+                request.getNewPassword());
+        return ResponseEntity.ok("Password updated");
     }
 }
