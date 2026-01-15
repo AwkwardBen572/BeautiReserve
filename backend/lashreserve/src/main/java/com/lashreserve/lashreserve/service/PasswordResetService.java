@@ -1,8 +1,10 @@
 package com.lashreserve.lashreserve.service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,31 +29,30 @@ public class PasswordResetService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void createResetToken(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponseEntity<String> createResetToken(String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
 
-        PasswordResetToken existingToken = tokenRepository.findByUser(user).orElse(null);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            PasswordResetToken existingToken = tokenRepository.findByUser(user).orElse(null);
 
-        if (existingToken != null) {
-            if (existingToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-                tokenRepository.delete(existingToken);
-            } else {
+            if (existingToken != null) {
                 tokenRepository.delete(existingToken);
             }
+
+            String token = UUID.randomUUID().toString();
+            PasswordResetToken resetToken = new PasswordResetToken();
+            resetToken.setToken(token);
+            resetToken.setUser(user);
+            resetToken.setExpiryDate(LocalDateTime.now().plusMinutes(10));
+
+            tokenRepository.save(resetToken);
+
+            // send email with token link
+            // Example: https://yourdomain.com/reset-password?token=XYZ
         }
 
-        String token = UUID.randomUUID().toString();
-
-        PasswordResetToken resetToken = new PasswordResetToken();
-        resetToken.setToken(token);
-        resetToken.setUser(user);
-        resetToken.setExpiryDate(LocalDateTime.now().plusMinutes(10));
-
-        tokenRepository.save(resetToken);
-
-        // 6️⃣ TODO: send email with token link
-        // Example: http://localhost:3000/reset-password?token=XYZ
+        return ResponseEntity.ok("If this email exists, a reset link has been sent.");
     }
 
     public void resetPassword(String token, String newPassword) {
