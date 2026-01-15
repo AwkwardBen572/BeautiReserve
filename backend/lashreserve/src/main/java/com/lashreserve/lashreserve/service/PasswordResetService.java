@@ -31,6 +31,16 @@ public class PasswordResetService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        PasswordResetToken existingToken = tokenRepository.findByUser(user).orElse(null);
+
+        if (existingToken != null) {
+            if (existingToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+                tokenRepository.delete(existingToken);
+            } else {
+                tokenRepository.delete(existingToken);
+            }
+        }
+
         String token = UUID.randomUUID().toString();
 
         PasswordResetToken resetToken = new PasswordResetToken();
@@ -40,8 +50,8 @@ public class PasswordResetService {
 
         tokenRepository.save(resetToken);
 
-        // TODO: send email with token link
-        // http://localhost:3000/reset-password?token=XYZ
+        // 6️⃣ TODO: send email with token link
+        // Example: http://localhost:3000/reset-password?token=XYZ
     }
 
     public void resetPassword(String token, String newPassword) {
@@ -52,7 +62,10 @@ public class PasswordResetService {
             throw new RuntimeException("Token expired");
         }
 
+        System.out.println(newPassword);
         User user = resetToken.getUser();
+        System.out.println(user.getEmail());
+
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 

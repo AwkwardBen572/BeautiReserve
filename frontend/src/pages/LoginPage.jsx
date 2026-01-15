@@ -28,6 +28,7 @@ const ShowPasswordToggle = ({ showPassword, setShowPassword }) => (
 );
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
@@ -40,13 +41,30 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
 
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const validatePhone = (number) => {
+    const cleaned = number.replace(/[\s-()]/g, "");
+    const saPhoneRegex = /^0\d{9}$/;
+    return saPhoneRegex.test(cleaned);
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateForm = () => {
+    const errors = [];
+    if (!form.fullName.trim()) errors.push("Please insert your name & surname.");
+    if (!form.phoneNumber.trim() || form.phoneNumber.length < 10 || !validatePhone(form.phoneNumber))
+      errors.push("Please insert a valid phone number.");
+    if (!validateEmail(form.email)) errors.push("Please insert a valid email.");
+    if (form.password.length < 8) errors.push("Password must be at least 8 characters.");
+    if (form.password !== form.confirmPassword) errors.push("Passwords do not match.");
+    return errors;
   };
 
   const handleSubmit = async (e) => {
@@ -67,11 +85,11 @@ const LoginPage = () => {
       });
 
       if (res.ok) {
+        setError("User registered successfully.");
         setMode("login");
       } else {
-        setError(
-          "There was an error with registering. The user may already exist or details are incorrect."
-        );
+        const data = await res.json();
+        setError(data.message);
         setShowError(true);
       }
     } else {
@@ -84,36 +102,11 @@ const LoginPage = () => {
       });
 
       if (!res.ok) {
-        setError(
-          "There was an error logging in. The user may not exist or details are incorrect."
-        );
+        const data = await res.json();
+        setError(data.message);
         setShowError(true);
       }
     }
-  };
-
-  const validateForm = () => {
-    const errors = [];
-
-    if (!form.fullName.trim()) errors.push("Please insert your name & surname.");
-    if (!form.phoneNumber.trim() || form.phoneNumber.length < 10 || !validatePhone(form.phoneNumber))
-      errors.push("Please insert a valid phone number.");
-    if (!validateEmail(form.email)) errors.push("Please insert a valid email.");
-    if (form.password.length < 8) errors.push("Password must be at least 8 characters.");
-    if (form.password !== form.confirmPassword) errors.push("Passwords do not match.");
-
-    return errors;
-  };
-
-  const validatePhone = (number) => {
-    const cleaned = number.replace(/[\s-()]/g, "");
-    const saPhoneRegex = /^0\d{9}$/;
-    return saPhoneRegex.test(cleaned);
-  };
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
   };
 
   return (

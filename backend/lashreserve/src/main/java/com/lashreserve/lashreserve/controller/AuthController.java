@@ -41,9 +41,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.email)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Email already in use");
+            throw new RuntimeException("Email already in use");
         }
 
         User user = new User();
@@ -66,7 +64,7 @@ public class AuthController {
 
         if (user == null ||
                 !passwordEncoder.matches(request.password, user.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid credentials");
+            throw new RuntimeException("Invalid credentials");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
