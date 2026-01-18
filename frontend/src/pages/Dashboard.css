@@ -2,10 +2,57 @@
     width: 100%;
     height: 100%;
     align-items: center;
+    background-color: rgba(249, 216, 216);
 }
 
 .dashboard_greeting_holder {
     width: 90%;
     height: 10%;
-    background-color: red;
+}
+
+.dashboard_greeting {
+    width: 90%;
+    height: 100%;
+    align-items: center;
+}
+
+.dashboard_info_holder {
+    width: 100%;
+    height: 90%;
+    border-radius: 3rem 3rem 0 0;
+    background-color: #ffffff;
+}
+
+.dashboard_info_overview_holder {
+    width: 100%;
+    height: 40%;
+    align-items: center;
+}
+
+.dashboard_info_overview_heading_holder {
+    width: 90%;
+    height: 15%;
+    justify-content: center;
+}
+
+.dashboard_info_tile_holder {
+    width: 100%;
+    height: 50%;
+    justify-content: space-around;
+}
+
+.dashboard_info_tile {
+    width: 30%;
+    height: 90%;
+    border-radius: 1rem;
+    align-items: center;
+    border: 0.1rem solid rgb(249, 216, 216);
+    box-shadow: 0 0 10px rgba(249, 216, 216, 1);
+}
+
+.dashboard_info_tile_heading {
+    width: 100%;
+    height: 20%;
+    align-items: center;
+    justify-content: center;
 }

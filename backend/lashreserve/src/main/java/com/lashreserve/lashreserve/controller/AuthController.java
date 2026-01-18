@@ -100,8 +100,11 @@ public class AuthController {
         return ResponseEntity.ok("Password updated");
     }
 
-    @GetMapping("/auth/me")
+    @GetMapping("/me")
     public ResponseEntity<?> me(HttpServletRequest request) {
+        System.out.print(request.getUserPrincipal());
+        System.out.print(
+                "request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()");
         return request.getUserPrincipal() != null
                 ? ResponseEntity.ok().build()
                 : ResponseEntity.status(401).build();
