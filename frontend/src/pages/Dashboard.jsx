@@ -1,6 +1,10 @@
 import "./Dashboard.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const Dashboard = () => {
+  const { user } = useContext(AuthContext);
+  console.log("user", user)
   const overviewItems = ["Next Appointment", "Loyalty Points", "Total Appointments"];
   return (
     <div className="dashboard_main_holder flex_column font_1">
@@ -16,7 +20,7 @@ const Dashboard = () => {
           </div>
           <div className="dashboard_info_tile_holder flex_row">
             {overviewItems.map((overviewItem, index) => (
-              <div className="dashboard_info_tile flex_column color_green font_size_s">
+              <div key={index} className="dashboard_info_tile flex_column color_green font_size_s">
                 <div className="dashboard_info_tile_heading flex_column" key={index}>{overviewItem}</div>
               </div>
             ))}

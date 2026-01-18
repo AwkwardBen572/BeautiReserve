@@ -26,12 +26,11 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http,
-                        JwtAuthFilter jwtAuthFilter) throws Exception {
+                        JwtAuthFilter jwtAuthFilter, CorsConfigurationSource corsConfigurationSource) throws Exception {
 
                 http
                                 .csrf(csrf -> csrf.disable())
-                                .cors(cors -> {
-                                })
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/api/auth/**", "/api/auth/forgot-password",
@@ -41,6 +40,7 @@ public class SecurityConfig {
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
+
         }
 
         @Bean

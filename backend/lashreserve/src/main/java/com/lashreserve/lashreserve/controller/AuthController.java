@@ -1,6 +1,9 @@
 package com.lashreserve.lashreserve.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,6 @@ import com.lashreserve.lashreserve.security.JwtUtil;
 import com.lashreserve.lashreserve.service.PasswordResetService;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -62,7 +64,7 @@ public class AuthController {
             HttpServletResponse response) {
 
         User user = userRepository.findByEmail(request.email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
 
         if (user == null ||
                 !passwordEncoder.matches(request.password, user.getPassword())) {
@@ -78,6 +80,9 @@ public class AuthController {
         cookie.setMaxAge(24 * 60 * 60);
 
         response.addCookie(cookie);
+
+        response.setHeader("Set-Cookie",
+                "access_token=" + token + "; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=" + (24 * 60 * 60));
 
         return ResponseEntity.ok("Login successful");
     }
@@ -101,12 +106,19 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> me(HttpServletRequest request) {
-        System.out.print(request.getUserPrincipal());
-        System.out.print(
-                "request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()request.getUserPrincipal()");
-        return request.getUserPrincipal() != null
-                ? ResponseEntity.ok().build()
-                : ResponseEntity.status(401).build();
+    public ResponseEntity<?> me() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() == "anonymousUser") {
+            return ResponseEntity.status(401).build();
+        }
+
+        var user = (User) auth.getPrincipal();
+
+        return ResponseEntity.ok(Map.of(
+                "id", user.getId(),
+                "fullName", user.getFullName(),
+                "email", user.getEmail(),
+                "phoneNumber", user.getPhoneNumber()));
     }
 }
