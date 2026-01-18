@@ -4,13 +4,12 @@ import { AuthContext } from "../context/AuthContext.jsx";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  console.log("user", user)
   const overviewItems = ["Next Appointment", "Loyalty Points", "Total Appointments"];
   return (
     <div className="dashboard_main_holder flex_column font_1">
       <div className="dashboard_greeting_holder flex_row flex">
         <div className="dashboard_greeting flex_row font_size color_white">
-          Hello, Ben Collins
+          Hello, {user.fullName}
         </div>
       </div>
       <div className="dashboard_info_holder flex_column">
