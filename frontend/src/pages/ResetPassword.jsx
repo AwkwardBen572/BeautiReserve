@@ -99,7 +99,8 @@ const ResetPassword = () => {
         />
         <ShowPasswordToggle showPassword={showPassword} setShowPassword={setShowPassword} />
       </div>
-
+      <br></br>
+      <br></br>
       <div className="form_button_holder flex_column flex_all_center">
         <div
           className="form_button button flex_column flex_all_center color_white"

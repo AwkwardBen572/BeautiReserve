@@ -3,6 +3,7 @@ package com.lashreserve.lashreserve.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.lashreserve.lashreserve.security.JwtUtil;
 import com.lashreserve.lashreserve.service.PasswordResetService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -41,7 +43,7 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.email)) {
-            throw new RuntimeException("Email already in use");
+            throw new RuntimeException("Unable to register");
         }
 
         User user = new User();
@@ -96,5 +98,12 @@ public class AuthController {
                 request.getToken(),
                 request.getNewPassword());
         return ResponseEntity.ok("Password updated");
+    }
+
+    @GetMapping("/auth/me")
+    public ResponseEntity<?> me(HttpServletRequest request) {
+        return request.getUserPrincipal() != null
+                ? ResponseEntity.ok().build()
+                : ResponseEntity.status(401).build();
     }
 }

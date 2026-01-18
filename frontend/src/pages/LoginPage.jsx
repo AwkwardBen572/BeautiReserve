@@ -27,7 +27,7 @@ const ShowPasswordToggle = ({ showPassword, setShowPassword }) => (
   </div>
 );
 
-const LoginPage = () => {
+const LoginPage = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -105,7 +105,10 @@ const LoginPage = () => {
         const data = await res.json();
         setError(data.message);
         setShowError(true);
-      }
+      } else {
+          onLoginSuccess();
+          navigate("/dashboard");
+        }
     }
   };
 
