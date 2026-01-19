@@ -29,8 +29,8 @@ const ShowPasswordToggle = ({ showPassword, setShowPassword }) => (
   </div>
 );
 
-const LoginPage = ({ onLoginSuccess }) => {
-  const { user, loading } = useContext(AuthContext);
+const LoginPage = () => {
+  const { user, loading, login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -108,21 +108,7 @@ const LoginPage = ({ onLoginSuccess }) => {
       }
     } else {
       const { email, password } = form;
-      const res = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.message);
-        setShowError(true);
-      } else {
-          onLoginSuccess();
-          navigate("/dashboard");
-        }
+      login(email, password);
     }
   };
 

@@ -1,5 +1,6 @@
 package com.lashreserve.lashreserve.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -83,8 +84,15 @@ public class AuthController {
 
         response.setHeader("Set-Cookie",
                 "access_token=" + token + "; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=" + (24 * 60 * 60));
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", "Login successful");
+        body.put("user", Map.of(
+                "id", user.getId(),
+                "fullName", user.getFullName(),
+                "email", user.getEmail()));
 
-        return ResponseEntity.ok("Login successful");
+        return ResponseEntity.ok(body);
+
     }
 
     @PostMapping("/forgot-password")

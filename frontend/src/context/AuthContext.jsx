@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -8,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [bookings, setBookings] = useState(null);
   const [bookingSummary, setBookingSummary] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -103,7 +105,9 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       const data = await res.json();
-      setUser(data);
+      setUser(data.user);
+      navigate("/dashboard");
+
     } else {
       throw new Error("Login failed");
     }
