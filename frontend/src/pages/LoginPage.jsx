@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "./ErrorModal";
 import "./LoginPage.css";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
 
 const InputField = ({ label, name, type, value, onChange }) => (
   <div className="login_input_holder">
@@ -28,6 +30,7 @@ const ShowPasswordToggle = ({ showPassword, setShowPassword }) => (
 );
 
 const LoginPage = ({ onLoginSuccess }) => {
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [mode, setMode] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -38,8 +41,19 @@ const LoginPage = ({ onLoginSuccess }) => {
     password: "",
     confirmPassword: ""
   });
+
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });

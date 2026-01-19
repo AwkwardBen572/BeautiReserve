@@ -10,14 +10,12 @@ import Profile from "./pages/Profile";
 import NavBar from "./components/NavBar";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { AuthContext } from "./context/AuthContext.jsx";
+import { useContext } from "react";
 
 function App() {
-  
+  const { user } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(!!Cookies.get("access_token"));
-  }, []);
 
   return (
     <>
@@ -33,7 +31,7 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
-      {isLoggedIn && <NavBar />}
+      {user && <NavBar />}
     </>
   );
 }

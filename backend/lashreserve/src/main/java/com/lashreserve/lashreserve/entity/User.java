@@ -32,8 +32,6 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    // --- Getters and setters ---
-
     public Long getId() {
         return id;
     }
