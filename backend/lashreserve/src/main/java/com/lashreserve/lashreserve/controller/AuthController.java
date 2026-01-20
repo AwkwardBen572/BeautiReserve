@@ -54,6 +54,7 @@ public class AuthController {
         user.setPhoneNumber(request.phoneNumber);
         user.setEmail(request.email);
         user.setPassword(passwordEncoder.encode(request.password));
+        user.setRole(request.role);
 
         userRepository.save(user);
 
@@ -89,7 +90,8 @@ public class AuthController {
         body.put("user", Map.of(
                 "id", user.getId(),
                 "fullName", user.getFullName(),
-                "email", user.getEmail()));
+                "email", user.getEmail(),
+                "role", user.getRole()));
 
         return ResponseEntity.ok(body);
 
@@ -127,6 +129,7 @@ public class AuthController {
                 "id", user.getId(),
                 "fullName", user.getFullName(),
                 "email", user.getEmail(),
-                "phoneNumber", user.getPhoneNumber()));
+                "phoneNumber", user.getPhoneNumber(),
+                "role", user.getRole()));
     }
 }

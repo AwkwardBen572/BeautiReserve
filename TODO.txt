@@ -1,3 +1,7 @@
 1. Send email forget password link.
 
 2. Create a 'My favourites' section in the Dashboard.
+
+3. Make the nav bar to be on the left side rather.
+
+4. When registering, there should be verification like emails or sms or something.

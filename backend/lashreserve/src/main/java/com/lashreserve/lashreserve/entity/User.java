@@ -32,6 +32,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(unique = true, nullable = false)
+    private String role;
+
     public Long getId() {
         return id;
     }
@@ -72,15 +75,22 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    // --- UserDetails methods ---
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(); // no roles for now
+        return List.of();
     }
 
     @Override
     public String getUsername() {
-        return email; // email is the username
+        return email;
     }
 
     @Override

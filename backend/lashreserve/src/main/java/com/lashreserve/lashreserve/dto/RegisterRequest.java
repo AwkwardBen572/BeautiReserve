@@ -5,6 +5,7 @@ public class RegisterRequest {
     public String phoneNumber;
     public String email;
     public String password;
+    public String role;
 
     public String getFullName() {
         return fullName;
@@ -38,4 +39,11 @@ public class RegisterRequest {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

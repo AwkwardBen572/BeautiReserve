@@ -33,13 +33,15 @@ const LoginPage = () => {
   const { user, loading, login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [mode, setMode] = useState("login");
+  const [userType, setUserType] = useState("client");
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     fullName: "",
     phoneNumber: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role: ""
   });
 
   const [error, setError] = useState("");
@@ -91,7 +93,8 @@ const LoginPage = () => {
         setShowError(true);
         return;
       }
-
+      form.role = userType;
+      console.log(form)
       const res = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -108,7 +111,11 @@ const LoginPage = () => {
       }
     } else {
       const { email, password } = form;
-      login(email, password);
+      const loginMethod = await login(email, password);
+      if(loginMethod && loginMethod === "invalid_credentials") {
+        setError("Invalid Credentials");
+        setShowError(true);
+      }
     }
   };
 
@@ -128,15 +135,32 @@ const LoginPage = () => {
           {["login", "register"].map((option) => (
             <div
               key={option}
-              className={`login_option flex_row flex_all_center ${
-                mode === option ? "login_option_selected" : "login_option"
-              }`}
+              className={`login_option flex_row flex_all_center ${mode === option ? "login_option_selected" : "login_option"
+                }`}
               onClick={() => setMode(option)}
             >
               {option.charAt(0).toUpperCase() + option.slice(1)}
             </div>
           ))}
         </div>
+        {mode === "register" && (
+          <div className="login_register_option_holder flex_row flex_all_center">
+            {(
+              ["client", "technician"].map((userTypeOption) => (
+                <div
+                  key={userTypeOption}
+                  className={`login_option flex_row flex_all_center ${userType === userTypeOption ? "login_option_selected" : "login_option"
+                    }`}
+                  onClick={() => setUserType(userTypeOption)}
+                >
+                  {userTypeOption.charAt(0).toUpperCase() + userTypeOption.slice(1)}
+                </div>
+              ))
+            )}
+
+          </div>
+        )}
+
 
         <div className="form_holder">
           {mode === "login" && (

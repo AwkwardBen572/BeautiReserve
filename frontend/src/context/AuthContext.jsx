@@ -107,9 +107,8 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
       setUser(data.user);
       navigate("/dashboard");
-
     } else {
-      throw new Error("Login failed");
+      return "invalid_credentials";
     }
   };
 
