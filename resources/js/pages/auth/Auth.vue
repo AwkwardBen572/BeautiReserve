@@ -3,5 +3,5 @@
 </script>
 
 <template>
-yoyo
+Testing auth
 </template>
