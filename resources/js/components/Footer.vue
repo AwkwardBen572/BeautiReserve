@@ -3,7 +3,9 @@
 </script>
 
 <template>
-Footer
+    <main>
+        Footer
+    </main>
 </template>
 
 <style scoped>
