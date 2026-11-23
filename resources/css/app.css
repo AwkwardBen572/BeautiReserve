@@ -8,9 +8,45 @@
         Instrument Sans, ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+
+    --color-brand-primary: #fabdbd;
+    --color-white: #ffffff;
 }
+
 
 .wrapper {
     width: 73%;
     margin: 0 auto;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary, .btn-secondary {
+    border: 1px solid var(--color-brand-primary);
+    transition: 0.5s;
+}
+
+.btn-primary {
+    background-color: var(--color-white);
+    color: var(--color-brand-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-brand-primary);
+    color: var(--color-white);
+}
+
+.btn-secondary {
+    background-color: var(--color-brand-primary);
+    color: var(--color-white)
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-white);
+    color: var(--color-brand-primary);
 }
