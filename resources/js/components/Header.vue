@@ -32,11 +32,11 @@ const user = computed(() => page.props.auth.user);
 }
 
 .header-logo {
-    @apply h-full w-[10%] bg-[length:80%_80%] bg-center bg-no-repeat;
+    @apply h-full w-[30%] md:w-[10%] bg-[length:80%_80%] bg-center bg-no-repeat;
     background-image: url('@/assets/images/logo/br_logo_main.png');
 }
 
 .auth-buttons {
-    @apply flex w-1/5 flex-nowrap items-center justify-between;
+    @apply flex w-[50%] md:w-1/5 flex-nowrap items-center justify-between;
 }
 </style>

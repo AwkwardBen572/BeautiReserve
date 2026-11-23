@@ -15,7 +15,7 @@
 
 
 .wrapper {
-    width: 73%;
+    @apply w-full px-4 md:w-[73%] md:px-0;
     margin: 0 auto;
 }
 
@@ -24,6 +24,7 @@
     border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .btn-primary, .btn-secondary {
