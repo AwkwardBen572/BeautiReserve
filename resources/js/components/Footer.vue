@@ -3,9 +3,11 @@
 </script>
 
 <template>
-    <main>
-        Footer
-    </main>
+    <footer>
+        <div class="wrapper">
+            Footer
+        </div>
+    </footer>
 </template>
 
 <style scoped>
